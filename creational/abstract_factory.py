@@ -4,6 +4,7 @@
 """
 
 from ast import literal_eval
+from typing import Callable, Any
 
 
 class Frog:
@@ -13,7 +14,7 @@ class Frog:
     def __str__(self):
         return self.name
 
-    def interact_with(self, obj: object) -> None:
+    def interact_with(self, obj: Callable) -> None:
         print(f"[Frog] {self} encounters {obj} and {obj.action()}")
 
 
@@ -43,7 +44,7 @@ class Lion:
     def __str__(self):
         return self.name
 
-    def interact_with(self, obj: object) -> None:
+    def interact_with(self, obj: Any) -> None:
         print(f"[Lion] {self} encounters {obj} and {obj.action()}")
 
 
@@ -67,7 +68,7 @@ class LineWorld:
 
 
 class GameWorld:
-    def __init__(self, factory: object):
+    def __init__(self, factory: Any):
         self.boss = factory.make_character()
         self.obstacle = factory.make_obstacle()
 
@@ -79,6 +80,4 @@ if __name__ == '__main__':
     # 根据年龄选择玩哪个角色
     age = literal_eval(input("请输入你的年龄："))
 
-    obj = LineWorld("胖虎") if age > 18 else FrogWorld("小明")
-
-    GameWorld(obj).play()
+    GameWorld(LineWorld("胖虎") if age > 18 else FrogWorld("小明")).play()
